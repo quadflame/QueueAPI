@@ -26,7 +26,7 @@ public abstract class AbstractQueue<T> {
             }
             for (int i = 0; i < getTeamSize() * getTeamCount(); i++) {
                 T queueT = players.get(i);
-                teams.get(i % getTeamCount()).getPlayers().add(queueT);
+                teams.get(i % getTeamCount()).getMembers().add(queueT);
             }
             onFill(teams);
         }
@@ -49,6 +49,6 @@ public abstract class AbstractQueue<T> {
 
     @Getter
     public class Team {
-        private final List<T> players = new ArrayList<>();
+        private final List<T> members = new ArrayList<>();
     }
 }

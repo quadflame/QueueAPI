@@ -2,7 +2,7 @@
 This is an API to easily create queues for Spigot servers
 ## Usage
 1. Install the api to your local maven repo using `maven install`
-2. Add the dependency to your Spigot plugin.
+2. Add the dependency to your Spigot plugin and set the scope to compile.
 ## Example
 ```java
 QueueAPI.createQueue(Queue.builder()

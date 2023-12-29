@@ -28,6 +28,7 @@ public abstract class AbstractQueue<T> {
                 T queueT = players.get(i);
                 teams.get(i % getTeamCount()).getMembers().add(queueT);
             }
+            players.clear();
             onFill(teams);
         }
     }

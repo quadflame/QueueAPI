@@ -1,4 +1,4 @@
-package com.quadflame.queueapi.api;
+package com.quadflame.queueapi;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

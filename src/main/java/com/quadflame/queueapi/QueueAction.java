@@ -1,4 +1,4 @@
-package com.quadflame.queueapi.api;
+package com.quadflame.queueapi;
 
 import org.bukkit.entity.Player;
 

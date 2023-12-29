@@ -1,4 +1,4 @@
-package com.quadflame.queueapi.api;
+package com.quadflame.queueapi;
 
 import org.bukkit.plugin.java.JavaPlugin;
 

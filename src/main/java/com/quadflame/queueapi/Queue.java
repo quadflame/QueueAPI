@@ -48,10 +48,12 @@ public class Queue {
         FULL
     }
 
+    @SuppressWarnings("unused")
     public static Builder builder() {
         return new Builder();
     }
 
+    @SuppressWarnings("unused")
     public static class Builder {
         private String name;
         private int teamSize;

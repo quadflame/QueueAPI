@@ -15,14 +15,12 @@ public class Queue {
     private final int teamSize;
     private final int teamCount;
     private final QueueAction queueAction;
-    private Status status = Status.QUEUING;
 
     public void join(Player player) {
-        if(status.equals(Status.FULL)) return;
+        if(isFull()) return;
         queue.add(player);
         queueAction.onJoin(player);
-        if(queue.size() == teamSize * teamCount) {
-            status = Status.FULL;
+        if(isFull()) {
             List<Team> teams = new ArrayList<>();
             for (int i = 0; i < teamCount; i++) {
                 teams.add(new Team());
@@ -38,14 +36,10 @@ public class Queue {
     public void remove(Player player) {
         queue.remove(player);
         queueAction.onLeave(player);
-        if(status.equals(Status.FULL)) {
-            status = Status.QUEUING;
-        }
     }
 
-    public enum Status {
-        QUEUING,
-        FULL
+    public boolean isFull() {
+        return queue.size() == teamSize * teamCount;
     }
 
     @SuppressWarnings("unused")

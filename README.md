@@ -15,16 +15,20 @@ QueueAPI.createQueue(PlayerQueue.builder()
         .teamSize(1)
         // Set the action to be executed when something happens to the queue
         .queueAction(new QueueAction() {
+            
+            // This is called when a player joins the queue
             @Override
             public void onJoin(Player player) {
                 player.sendMessage(ChatColor.GREEN + "You joined the queue!");
             }
 
+            // This is called when a player leaves the queue
             @Override
             public void onLeave(Player player) {
                 player.sendMessage(ChatColor.RED + "You left the queue!");
             }
 
+            // This is called when the queue is full
             @Override
             public void onFill(List<AbstractQueue<Player>.Team> teams) {
                 int teamCounter = 0;

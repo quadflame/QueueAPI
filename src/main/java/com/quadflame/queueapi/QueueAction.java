@@ -10,7 +10,6 @@ public interface QueueAction {
 
     void onLeave(Player player);
 
-    void onFill(List<Team> teams);
-
+    void onFill(List<Queue.Team> teams);
 
 }

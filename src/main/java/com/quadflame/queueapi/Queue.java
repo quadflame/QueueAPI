@@ -42,6 +42,11 @@ public class Queue {
         return queue.size() == teamSize * teamCount;
     }
 
+    @Getter
+    public static class Team {
+        private final List<Player> players = new ArrayList<>();
+    }
+
     @SuppressWarnings("unused")
     public static Builder builder() {
         return new Builder();

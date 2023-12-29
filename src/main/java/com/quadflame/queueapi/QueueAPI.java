@@ -14,6 +14,11 @@ public final class QueueAPI {
         queues.put(queue.getName(), queue);
     }
 
+    public void deleteQueue(String queueName) {
+        if(!queues.containsKey(queueName)) throw new IllegalArgumentException("Queue with name " + queueName + " does not exist!");
+        queues.remove(queueName);
+    }
+
     public void joinQueue(String queueName, Player player) {
         if(!queues.containsKey(queueName)) throw new IllegalArgumentException("Queue with name " + queueName + " does not exist!");
         queues.get(queueName).join(player);

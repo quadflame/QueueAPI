@@ -37,9 +37,11 @@ public abstract class AbstractQueue<T> {
 
     public abstract void onJoin(T t);
 
-    public void remove(T t) {
+    public boolean remove(T t) {
+        if(!queue.contains(t)) return false;
         queue.remove(t);
         onLeave(t);
+        return true;
     }
 
     public abstract void onLeave(T t);

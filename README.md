@@ -2,7 +2,15 @@
 This is an API to easily create queues for Spigot servers.
 ## Usage
 1. Install the api to your local maven repo using `maven install`
-2. Add the dependency to your Spigot plugin and set the scope to compile.
+2. Add this dependency to your Spigot plugin and set the scope to compile.
+```xml
+<dependency>
+    <groupId>com.quadflame</groupId>
+    <artifactId>QueueAPI</artifactId>
+    <version>1.0.0</version>
+    <scope>compile</scope>
+</dependency>
+```
 ## Example
 Create your own queue for players using the PlayerQueue class.
 ```java

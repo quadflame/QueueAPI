@@ -1,11 +1,12 @@
 # QueueAPI
-This is an API to easily create queues for Spigot servers
+This is an API to easily create queues for Spigot servers.
 ## Usage
 1. Install the api to your local maven repo using `maven install`
 2. Add the dependency to your Spigot plugin and set the scope to compile.
 ## Example
+Create your own queue for players using the PlayerQueue class.
 ```java
-QueueAPI.createQueue(Queue.builder()
+QueueAPI.createQueue(PlayerQueue.builder()
         // Set the name of the queue
         .name("myQueue")
         // Set the number of teams
@@ -25,19 +26,19 @@ QueueAPI.createQueue(Queue.builder()
             }
 
             @Override
-            public void onFill(List<Queue.Team> teams) {
+            public void onFill(List<AbstractQueue<Player>.Team> teams) {
                 int teamCounter = 0;
-                for (Queue.Team team : teams) {
-                    for (Player player : team.getPlayers()) {
+                for (AbstractQueue<Player>.Team team : teams) {
+                    for (Player player : team.getMembers()) {
                         player.sendMessage(ChatColor.YELLOW + "You are in team: " + teamCounter);
                     }
-                    teamCounter++;
-                }
+                teamCounter++;
             }
-        }).build());
+        }
+    }).build());
 
 // Get a queue that has been created
-Queue queue = QueueAPI.getQueue("myQueue");
+PlayerQueue queue = QueueAPI.getQueue("myQueue");
 
 // Add a player to a queue
 QueueAPI.joinQueue("myQueue", player);
@@ -47,4 +48,45 @@ QueueAPI.leaveQueue("myQueue", player);
 
 // Delete a queue to prevent players from joining it
 QueueAPI.deleteQueue("myQueue");
+```
+Or even create queues for a specific object eg. `UUID` and have full control of storing your own queues.
+```java
+public class UUIDQueue extends AbstractQueue<UUID> {
+
+    @Override
+    public String getName() {
+        return "UUIDQueue";
+    }
+
+    @Override
+    public int getTeamSize() {
+        return 4;
+    }
+
+    @Override
+    public int getTeamCount() {
+        return 2;
+    }
+
+    @Override
+    public void onJoin(UUID uuid) {
+        Bukkit.getPlayer(uuid).sendMessage(ChatColor.GREEN + "You joined the queue!");
+    }
+
+    @Override
+    public void onLeave(UUID uuid) {
+        Bukkit.getPlayer(uuid).sendMessage(ChatColor.RED + "You left the queue!");
+    }
+
+    @Override
+    public void onFill(List<AbstractQueue<UUID>.Team> teams) {
+        int teamCounter = 0;
+        for (AbstractQueue<UUID>.Team team : teams) {
+            for (UUID uuid : team.getMembers()) {
+                Bukkit.getPlayer(uuid).sendMessage(ChatColor.YELLOW + "You are in team: " + teamCounter);
+            }
+            teamCounter++;
+        }
+    }
+}
 ```

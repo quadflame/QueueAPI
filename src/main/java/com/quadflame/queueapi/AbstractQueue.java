@@ -8,7 +8,7 @@ import java.util.List;
 @Getter
 @SuppressWarnings("unused")
 public abstract class AbstractQueue<T> {
-    private final List<T> players = new ArrayList<>();
+    private final List<T> queue = new ArrayList<>();
 
     public abstract String getName();
 
@@ -16,9 +16,9 @@ public abstract class AbstractQueue<T> {
 
     public abstract int getTeamCount();
 
-    public void join(T t) {
-        if(isFull()) return;
-        players.add(t);
+    public boolean join(T t) {
+        if(isFull() || queue.contains(t)) return false;
+        queue.add(t);
         onJoin(t);
         if(isFull()) {
             List<Team<T>> teams = new ArrayList<>();
@@ -26,25 +26,26 @@ public abstract class AbstractQueue<T> {
                 teams.add(new Team<>());
             }
             for (int i = 0; i < getTeamSize() * getTeamCount(); i++) {
-                T queueT = players.get(i);
+                T queueT = queue.get(i);
                 teams.get(i % getTeamCount()).getMembers().add(queueT);
             }
-            players.clear();
+            queue.clear();
             onFill(teams);
         }
+        return true;
     }
 
     public abstract void onJoin(T t);
 
     public void remove(T t) {
-        players.remove(t);
+        queue.remove(t);
         onLeave(t);
     }
 
     public abstract void onLeave(T t);
 
     public boolean isFull() {
-        return players.size() == getTeamSize() * getTeamCount();
+        return queue.size() == getTeamSize() * getTeamCount();
     }
 
     public abstract void onFill(List<Team<T>> teams);

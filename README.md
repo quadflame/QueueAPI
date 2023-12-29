@@ -93,7 +93,7 @@ QueueAPI.createQueue(new AbstractQueue.Builder<UUID>()
         // Set the number of teams
         .teamCount(2)
         // Set the size of each team
-        .teamSize(1)
+        .teamSize(4)
         // Set the action to be executed when something happens to the queue
         .queueAction(new QueueAction<UUID>() {  
             // This is called when a player joins the queue

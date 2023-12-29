@@ -1,0 +1,3 @@
+name: QueueAPI
+version: '${project.version}'
+main: com.quadflame.queueapi.spigot.SpigotPlugin

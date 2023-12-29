@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @RequiredArgsConstructor
 public class Queue {
-    private final List<Player> queue = new ArrayList<>();
+    private final List<Player> players = new ArrayList<>();
     private final String name;
     private final int teamSize;
     private final int teamCount;
@@ -18,7 +18,7 @@ public class Queue {
 
     public void join(Player player) {
         if(isFull()) return;
-        queue.add(player);
+        players.add(player);
         queueAction.onJoin(player);
         if(isFull()) {
             List<Team> teams = new ArrayList<>();
@@ -26,7 +26,7 @@ public class Queue {
                 teams.add(new Team());
             }
             for (int i = 0; i < teamSize * teamCount; i++) {
-                Player queuePlayer = queue.get(i);
+                Player queuePlayer = players.get(i);
                 teams.get(i % teamCount).getPlayers().add(queuePlayer);
             }
             queueAction.onFill(teams);
@@ -34,12 +34,12 @@ public class Queue {
     }
 
     public void remove(Player player) {
-        queue.remove(player);
+        players.remove(player);
         queueAction.onLeave(player);
     }
 
     public boolean isFull() {
-        return queue.size() == teamSize * teamCount;
+        return players.size() == teamSize * teamCount;
     }
 
     @Getter

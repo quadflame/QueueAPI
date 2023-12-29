@@ -7,25 +7,28 @@ import java.util.Map;
 
 @SuppressWarnings("unused")
 public final class QueueAPI {
-    private final Map<String, Queue> queues = new HashMap<>();
+    private static final Map<String, Queue> queues = new HashMap<>();
 
-    public void createQueue(Queue queue) {
+    public static void createQueue(Queue queue) {
         if(queues.containsKey(queue.getName())) throw new IllegalArgumentException("Queue with name " + queue.getName() + " already exists!");
         queues.put(queue.getName(), queue);
     }
 
-    public void deleteQueue(String queueName) {
+    public static void deleteQueue(String queueName) {
         if(!queues.containsKey(queueName)) throw new IllegalArgumentException("Queue with name " + queueName + " does not exist!");
         queues.remove(queueName);
     }
 
-    public void joinQueue(String queueName, Player player) {
+    public static Queue getQueue(String queueName) {
         if(!queues.containsKey(queueName)) throw new IllegalArgumentException("Queue with name " + queueName + " does not exist!");
-        queues.get(queueName).join(player);
+        return queues.get(queueName);
     }
 
-    public void leaveQueue(String queueName, Player player) {
-        if(!queues.containsKey(queueName)) throw new IllegalArgumentException("Queue with name " + queueName + " does not exist!");
-        queues.get(queueName).remove(player);
+    public static void joinQueue(String queueName, Player player) {
+        getQueue(queueName).join(player);
+    }
+
+    public static void leaveQueue(String queueName, Player player) {
+        getQueue(queueName).remove(player);
     }
 }

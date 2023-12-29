@@ -1,15 +1,13 @@
 package com.quadflame.queueapi;
 
-import org.bukkit.entity.Player;
-
 import java.util.HashMap;
 import java.util.Map;
 
 @SuppressWarnings("unused")
 public final class QueueAPI {
-    private static final Map<String, PlayerQueue> queues = new HashMap<>();
+    private static final Map<String, AbstractQueue<?>> queues = new HashMap<>();
 
-    public static void createQueue(PlayerQueue queue) {
+    public static void createQueue(AbstractQueue<?> queue) {
         if(queues.containsKey(queue.getName())) throw new IllegalArgumentException("Queue with name " + queue.getName() + " already exists!");
         queues.put(queue.getName(), queue);
     }
@@ -19,16 +17,13 @@ public final class QueueAPI {
         queues.remove(queueName);
     }
 
-    public static PlayerQueue getQueue(String queueName) {
+    public static PlayerQueue getPlayerQueue(String queueName) {
+        if(!queues.containsKey(queueName)) throw new IllegalArgumentException("Queue with name " + queueName + " does not exist!");
+        return (PlayerQueue) queues.get(queueName);
+    }
+
+    public static AbstractQueue<?> getQueue(String queueName) {
         if(!queues.containsKey(queueName)) throw new IllegalArgumentException("Queue with name " + queueName + " does not exist!");
         return queues.get(queueName);
-    }
-
-    public static void joinQueue(String queueName, Player player) {
-        getQueue(queueName).join(player);
-    }
-
-    public static void leaveQueue(String queueName, Player player) {
-        getQueue(queueName).remove(player);
     }
 }

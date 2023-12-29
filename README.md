@@ -6,60 +6,51 @@ This is an API to easily create queues for Spigot servers.
 ## Example
 Create your own queue for players using the PlayerQueue class.
 ```java
-QueueAPI.createQueue(PlayerQueue.builder()
-        // Set the name of the queue
-        .name("myQueue")
-        // Set the number of teams
-        .teamCount(2)
-        // Set the size of each team
-        .teamSize(1)
-        // Set the action to be executed when something happens to the queue
-        .queueAction(new QueueAction() {
-            
-            // This is called when a player joins the queue
-            @Override
-            public void onJoin(Player player) {
-                player.sendMessage(ChatColor.GREEN + "You joined the queue!");
-            }
+// Create a queue using Bukkit Players
+QueueAPI.createQueue(new PlayerQueue("MyQueue", 1, 2, new QueueAction<Player>() {
+    @Override
+    public void onJoin(Player player) {
+        player.sendMessage(ChatColor.GREEN + "You joined the queue!");
+    }
 
-            // This is called when a player leaves the queue
-            @Override
-            public void onLeave(Player player) {
-                player.sendMessage(ChatColor.RED + "You left the queue!");
-            }
+    @Override
+    public void onLeave(Player player) {
+        player.sendMessage(ChatColor.RED + "You left the queue!");
+    }
 
-            // This is called when the queue is full
-            @Override
-            public void onFill(List<AbstractQueue<Player>.Team> teams) {
-                int teamCounter = 0;
-                for (AbstractQueue<Player>.Team team : teams) {
-                    for (Player player : team.getMembers()) {
-                        player.sendMessage(ChatColor.YELLOW + "You are in team: " + teamCounter);
-                    }
-                teamCounter++;
+    @Override
+    public void onFill(List<Team<Player>> teams) {
+        int teamCounter = 0;
+        for (Team<Player> team : teams) {
+            for (Player player : team.getMembers()) {
+                player.sendMessage(ChatColor.YELLOW + "You are in team: " + teamCounter);
             }
+            teamCounter++;
         }
-    }).build());
+    }
+}));
 
-// Get a queue that has been created
-PlayerQueue queue = QueueAPI.getQueue("myQueue");
+// Get a PlayerQueue
+PlayerQueue playerQueue = QueueAPI.getPlayerQueue("MyQueue");
 
 // Add a player to a queue
-QueueAPI.joinQueue("myQueue", player);
+QueueAPI.getPlayerQueue("MyQueue").join(player);
 
 // Remove a player from a queue
-QueueAPI.leaveQueue("myQueue", player);
+QueueAPI.getPlayerQueue("MyQueue").remove(player);
 
 // Delete a queue to prevent players from joining it
-QueueAPI.deleteQueue("myQueue");
+QueueAPI.deleteQueue("MyQueue");
+
+// Get any type of queue
+AbstractQueue<?> otherQueue = QueueAPI.getQueue("OtherQueue");
 ```
 Or even create queues for a specific object eg. `UUID` and have full control of storing your own queues.
 ```java
-public class UUIDQueue extends AbstractQueue<UUID> {
-
+public class TestQueue extends AbstractQueue<UUID> {
     @Override
     public String getName() {
-        return "UUIDQueue";
+        return "TestQueue";
     }
 
     @Override
@@ -83,9 +74,9 @@ public class UUIDQueue extends AbstractQueue<UUID> {
     }
 
     @Override
-    public void onFill(List<AbstractQueue<UUID>.Team> teams) {
+    public void onFill(List<Team<UUID>> teams) {
         int teamCounter = 0;
-        for (AbstractQueue<UUID>.Team team : teams) {
+        for (Team<UUID> team : teams) {
             for (UUID uuid : team.getMembers()) {
                 Bukkit.getPlayer(uuid).sendMessage(ChatColor.YELLOW + "You are in team: " + teamCounter);
             }
@@ -93,4 +84,38 @@ public class UUIDQueue extends AbstractQueue<UUID> {
         }
     }
 }
+```
+Alternatively, this has the same functionality as the previous example:
+```java
+QueueAPI.createQueue(new AbstractQueue.Builder<UUID>()
+        // Set the name of the queue
+        .name("myQueue")
+        // Set the number of teams
+        .teamCount(2)
+        // Set the size of each team
+        .teamSize(1)
+        // Set the action to be executed when something happens to the queue
+        .queueAction(new QueueAction<UUID>() {  
+            // This is called when a player joins the queue
+            @Override
+            public void onJoin(UUID uuid) {
+                Bukkit.getPlayer(uuid).sendMessage(ChatColor.GREEN + "You joined the queue!");
+            }   
+            // This is called when a player leaves the queue
+            @Override
+            public void onLeave(UUID uuid) {
+                Bukkit.getPlayer(uuid).sendMessage(ChatColor.RED + "You left the queue!");
+            }   
+            // This is called when the queue is full
+            @Override
+            public void onFill(List<Team<UUID>> teams) {
+                int teamCounter = 0;
+                for (Team<UUID> team : teams) {
+                    for (UUID uuid : team.getMembers()) {
+                        Bukkit.getPlayer(uuid).sendMessage(ChatColor.YELLOW + "You are in team: " + teamCounter);
+                    }
+                    teamCounter++;
+                }
+            }
+        }).build());
 ```

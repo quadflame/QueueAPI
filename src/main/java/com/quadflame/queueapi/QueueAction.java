@@ -1,15 +1,13 @@
 package com.quadflame.queueapi;
 
-import org.bukkit.entity.Player;
-
 import java.util.List;
 
-public interface QueueAction {
+public interface QueueAction<T> {
 
-    void onJoin(Player player);
+    void onJoin(T t);
 
-    void onLeave(Player player);
+    void onLeave(T t);
 
-    void onFill(List<AbstractQueue<Player>.Team> teams);
+    void onFill(List<Team<T>> teams);
 
 }

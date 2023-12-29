@@ -7,9 +7,9 @@ import java.util.Map;
 
 @SuppressWarnings("unused")
 public final class QueueAPI {
-    private static final Map<String, Queue> queues = new HashMap<>();
+    private static final Map<String, PlayerQueue> queues = new HashMap<>();
 
-    public static void createQueue(Queue queue) {
+    public static void createQueue(PlayerQueue queue) {
         if(queues.containsKey(queue.getName())) throw new IllegalArgumentException("Queue with name " + queue.getName() + " already exists!");
         queues.put(queue.getName(), queue);
     }
@@ -19,7 +19,7 @@ public final class QueueAPI {
         queues.remove(queueName);
     }
 
-    public static Queue getQueue(String queueName) {
+    public static PlayerQueue getQueue(String queueName) {
         if(!queues.containsKey(queueName)) throw new IllegalArgumentException("Queue with name " + queueName + " does not exist!");
         return queues.get(queueName);
     }

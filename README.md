@@ -5,7 +5,7 @@ This is an API to easily create queues for Spigot servers
 2. Add the dependency to your Spigot plugin and set the scope to compile.
 ## Example
 ```java
-QueueAPI.createQueue(Queue.builder()
+QueueAPI.createQueue(PlayerQueue.builder()
         // Set the name of the queue
         .name("myQueue")
         // Set the number of teams
@@ -25,19 +25,19 @@ QueueAPI.createQueue(Queue.builder()
             }
 
             @Override
-            public void onFill(List<Queue.Team> teams) {
+            public void onFill(List<AbstractQueue<Player>.Team> teams) {
                 int teamCounter = 0;
-                for (Queue.Team team : teams) {
+                for (AbstractQueue<Player>.Team team : teams) {
                     for (Player player : team.getPlayers()) {
                         player.sendMessage(ChatColor.YELLOW + "You are in team: " + teamCounter);
                     }
-                    teamCounter++;
-                }
+                teamCounter++;
             }
-        }).build());
+        }
+    }).build());
 
 // Get a queue that has been created
-Queue queue = QueueAPI.getQueue("myQueue");
+PlayerQueue queue = QueueAPI.getQueue("myQueue");
 
 // Add a player to a queue
 QueueAPI.joinQueue("myQueue", player);

@@ -41,7 +41,7 @@ QueueAPI.createQueue(new PlayerQueue("MyQueue", 1, 2, new QueueAction<Player>() 
 // Get a PlayerQueue
 PlayerQueue playerQueue = QueueAPI.getPlayerQueue("MyQueue");
 
-// Add a player to a queue
+// Add a player to a queue (Returns true if the player was added)
 QueueAPI.getPlayerQueue("MyQueue").join(player);
 
 // Remove a player from a queue

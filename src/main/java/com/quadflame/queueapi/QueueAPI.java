@@ -1,7 +1,11 @@
 package com.quadflame.queueapi;
 
+import com.google.common.collect.Sets;
+
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @SuppressWarnings("unused")
 public final class QueueAPI {
@@ -22,8 +26,21 @@ public final class QueueAPI {
         return (PlayerQueue) queues.get(queueName);
     }
 
+    public static Set<PlayerQueue> getPlayerQueues() {
+        Set<PlayerQueue> playerQueues = new HashSet<>();
+        for (AbstractQueue<?> queue : queues.values()) {
+            if(queue instanceof PlayerQueue)
+                playerQueues.add((PlayerQueue) queue);
+        }
+        return playerQueues;
+    }
+
     public static AbstractQueue<?> getQueue(String queueName) {
         if(!queues.containsKey(queueName)) throw new IllegalArgumentException("Queue with name " + queueName + " does not exist!");
         return queues.get(queueName);
+    }
+
+    public static Set<AbstractQueue<?>> getQueues() {
+        return Sets.newHashSet(queues.values());
     }
 }

@@ -1,6 +1,7 @@
 package com.quadflame.queueapi;
 
 import com.google.common.collect.Sets;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,6 +36,13 @@ public final class QueueAPI {
         return playerQueues;
     }
 
+    public static boolean isPlayerInQueue(Player player) {
+        for (PlayerQueue playerQueue : getPlayerQueues()) {
+            if(playerQueue.getQueue().contains(player)) return true;
+        }
+        return false;
+    }
+
     public static AbstractQueue<?> getQueue(String queueName) {
         if(!queues.containsKey(queueName)) throw new IllegalArgumentException("Queue with name " + queueName + " does not exist!");
         return queues.get(queueName);
@@ -42,5 +50,12 @@ public final class QueueAPI {
 
     public static Set<AbstractQueue<?>> getQueues() {
         return Sets.newHashSet(queues.values());
+    }
+
+    public static boolean isInQueue(Object object) {
+        for (AbstractQueue<?> queue : getQueues()) {
+            if(queue.getQueue().contains(object)) return true;
+        }
+        return false;
     }
 }

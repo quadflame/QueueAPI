@@ -1,5 +1,6 @@
 package com.quadflame.queueapi;
 
+import com.google.common.base.Preconditions;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -79,10 +80,10 @@ public abstract class AbstractQueue<T> {
         }
 
         public AbstractQueue<T> build() {
-            if (name == null) throw new IllegalArgumentException("Name cannot be null");
-            if (teamSize <= 0) throw new IllegalArgumentException("Team size cannot be 0");
-            if (teamCount <= 0) throw new IllegalArgumentException("Team count cannot be 0");
-            if (queueAction == null) throw new IllegalArgumentException("Queue action cannot be null");
+            Preconditions.checkNotNull(name, "Name cannot be null");
+            Preconditions.checkArgument(teamSize > 0, "Team size cannot be <= 0");
+            Preconditions.checkArgument(teamCount > 0, "Team count cannot be <= 0");
+            Preconditions.checkNotNull(queueAction, "Queue action cannot be null");
             return new AbstractQueue<T>() {
                 @Override
                 public String getName() {

@@ -3,10 +3,7 @@ package com.quadflame.queueapi;
 import com.google.common.collect.Sets;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @SuppressWarnings("unused")
 public final class QueueAPI {

@@ -30,7 +30,7 @@ QueueAPI.createQueue(new PlayerQueue("MyQueue", 1, 2, new QueueAction<Player>() 
     public void onFill(List<Team<Player>> teams) {
         int teamCounter = 0;
         for (Team<Player> team : teams) {
-            for (Player player : team.getMembers()) {
+            for (Player player : team) {
                 player.sendMessage(ChatColor.YELLOW + "You are in team: " + teamCounter);
             }
             teamCounter++;
@@ -85,7 +85,7 @@ public class TestQueue extends AbstractQueue<UUID> {
     public void onFill(List<Team<UUID>> teams) {
         int teamCounter = 0;
         for (Team<UUID> team : teams) {
-            for (UUID uuid : team.getMembers()) {
+            for (UUID uuid : team) {
                 Bukkit.getPlayer(uuid).sendMessage(ChatColor.YELLOW + "You are in team: " + teamCounter);
             }
             teamCounter++;
@@ -119,7 +119,7 @@ QueueAPI.createQueue(new AbstractQueue.Builder<UUID>()
             public void onFill(List<Team<UUID>> teams) {
                 int teamCounter = 0;
                 for (Team<UUID> team : teams) {
-                    for (UUID uuid : team.getMembers()) {
+                    for (UUID uuid : team) {
                         Bukkit.getPlayer(uuid).sendMessage(ChatColor.YELLOW + "You are in team: " + teamCounter);
                     }
                     teamCounter++;

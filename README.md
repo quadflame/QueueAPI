@@ -1,7 +1,7 @@
 # QueueAPI
 This is an API to easily create queues for Spigot servers.
 ## Usage
-1. Install the api to your local maven repo using `maven install`
+1. Install the api to your local maven repo using `mvn install`
 2. Add this dependency to your Spigot plugin and set the scope to compile.
 ```xml
 <dependency>
